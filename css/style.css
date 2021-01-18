@@ -1,0 +1,6 @@
+.extraClassAspect {
+ -webkit-transform: scaleX(1.34)!important;
+}
+.extraClassCrop {
+ -webkit-transform: scale(1.34)!important;
+}

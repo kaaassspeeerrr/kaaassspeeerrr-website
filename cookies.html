@@ -1,0 +1,114 @@
+<script>
+  function update() {
+    document.getElementById('text').innerHTML = cookiecount;
+    document.title = cookiecount + " Cookies";
+    document.getElementById('amountmultiplier').innerHTML = "Multiplier upgrade x" + (multiplier+1);
+    document.getElementById('amountmultiplier2').innerHTML = "x" + (multiplier+1);
+    document.getElementById('costmultiplier').innerHTML = ((multiplier+1) * 100) + " Cookies";
+    document.getElementById('currentmultiplier').innerHTML = "Your current multiplier is x" + (multiplier);
+    document.getElementById('amountautoclick').innerHTML = "You own " + autoclick + " auto-clicker(s).";
+    document.getElementById('costautoclick').innerHTML = ((autoclick+1) * 12) + " Cookies";
+    document.getElementById('amountfarm').innerHTML = "You own " + farms + " farm(s).";
+    document.getElementById('costfarm').innerHTML = ((farms+1) * 15) + " Cookies";
+    document.getElementById('cookiespersecond').innerHTML = "You are gaining " + (((autoclick)+(farms*2))*multiplier) +  " cookies per second automatically.";
+  }
+  var cookiecount = 0;
+  var autoclick = 0;
+  var farms = 0;
+  var multiplier = 1;
+  function timer() {
+    cookiecount = cookiecount + autoclick*multiplier;
+    cookiecount = cookiecount + farms*2*multiplier;
+    update()
+  }
+  setInterval(timer, 1000)
+</script>
+
+<html>
+<head><title>Cookie Game</title>
+  <link rel="stylesheet" href="styles.css"
+</head>
+<body>
+  <br>
+  <br>
+  You got:
+  <span id="text"> 0 </span>
+
+  <script>
+    function add(){
+      cookiecount = cookiecount + 1
+      update()
+    }
+  </script>
+  Cookies
+  <br>
+  <br>
+  <button type="button" onClick="add()">Click for a Cookie</button>
+  <br>
+  <br>
+  <p id="cookiespersecond">You are gaining 0 cookies per second automatically.<p>
+    <br>
+    <p id="amountmultiplier">Multiplier upgrade x2</p>
+    <button type="button" onClick="buymultiplier()"><span id="amountmultiplier2">x2<span></button>
+      <p id="costmultiplier">200 Cookies</p>
+      <p id="currentmultiplier">Your current multiplier is x1</p>
+      <br>
+      <br>
+      <button type="button" onClick="buyautoclick()">Buy an Auto-Clicker</button>
+      <p id="costautoclick"> 12 Cookies</p>
+      <p id="amountautoclick"> You own 0 auto-clicker(s).</p>
+      <br>
+      <br>
+      <button type="button" onClick="buyfarm()">Buy a Farm</button>
+      <p id="costfarm"> 15 Cookies</p>
+      <p id="amountfarm">You own 0 farm(s).</p>
+      <br>
+      <br>
+      <button type="button" onClick="save()">Save</button>
+      <button type="button" onClick="load()">Load</button>
+
+      <script>
+        function save(){
+          localStorage.setItem("cookiecount", cookiecount);
+          localStorage.setItem("autoclick", autoclick);
+          localStorage.setItem("farms", farms);
+          localStorage.setItem("multiplier", multiplier);
+        }
+        function load(){
+          cookiecount = localStorage.getItem("cookiecount");
+          cookiecount = parseInt(cookiecount);
+          autoclick = localStorage.getItem("autoclick");
+          autoclick = parseInt(autoclick);
+          farms = localStorage.getItem("farms");
+          farms = parseInt(farms);
+          multiplier = localStorage.getItem("multiplier");
+          multiplier = parseInt(multiplier);
+          update()
+          document.getElementById('text').value = cookiecount;
+          document.title = cookiecount + " Cookies";
+        }
+        function buyautoclick(){
+          if (cookiecount>= ((autoclick+1) * 12)){
+            cookiecount = cookiecount - ((autoclick+1) * 12);
+            autoclick = autoclick + 1;
+            update()
+          }
+        }
+        function buyfarm(){
+          if (cookiecount>= ((farms+1) * 15)){
+            cookiecount = cookiecount - ((farms+1) * 15);
+            farms = farms + 1;
+            update()
+          }
+        }
+        function buymultiplier(){
+          if (cookiecount>= ((multiplier+1) * 100)){
+            cookiecount = cookiecount - ((multiplier+1) * 100);
+            multiplier = multiplier + 1;
+            update()
+          }
+        }
+      </script>
+
+    </body>
+    </html>
